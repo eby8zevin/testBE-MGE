@@ -1,7 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const authController = require('../controllers/authController');
+const userController = require('../controllers/userController');
+const authMiddleware = require('../middlewares/authMiddleware');
 
-router.post('/login', authController.login);
+// Registrasi dan Login
+router.post('/register', userController.register);
+router.post('/login', userController.login);
+
+// Hanya bisa diakses jika menggunakan token
+router.get('/users', authMiddleware, userController.getAllUsers);
+router.delete('/users/:id', authMiddleware, userController.deleteUser);
 
 module.exports = router;
